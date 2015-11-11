@@ -7,9 +7,9 @@ import android.graphics.RectF;
  */
 public class Cell {
     public static final int CELL_WIDTH = 230;
-    private int x;
-    private int y;
-    public RectF rectF;
+    protected int x;
+    protected int y;
+    protected RectF rectF;
 
     public Cell(int x, int y) {
         this.x = x;

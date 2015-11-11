@@ -16,8 +16,8 @@ public class CanvasView extends View {
     public static final int BACKGROUND_WIDTH = 1020;
     public static final int PADDING = 20;
     public static final int CELL_WIDTH = 230;
-    private int startX = 0;
-    private int startY = 0;
+    private int AtTouchStartX = 0;
+    private int AtTouchStartY = 0;
     private int finishX = 0;
     private int finishY = 0;
     private static int width;
@@ -71,32 +71,13 @@ public class CanvasView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            startX = (int) event.getX();
-            startY = (int) event.getY();
+            AtTouchStartX = (int) event.getX();
+            AtTouchStartY = (int) event.getY();
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
             finishX = (int) event.getX();
             finishY = (int) event.getY();
-            switch (gameManager.checkDirection(startX, startY, finishX, finishY)) {
-                case UP:
-                    backgroundCells[0][0].rectF.top -= 50;
-                    backgroundCells[0][0].rectF.bottom -= 50;
-                    break;
-                case DOWN:
-                    backgroundCells[0][0].rectF.top += 50;
-                    backgroundCells[0][0].rectF.bottom += 50;
-                    break;
-                case LEFT:
-                    backgroundCells[0][0].rectF.left -= 50;
-                    backgroundCells[0][0].rectF.right -= 50;
-                    break;
-                case RIGHT:
-                    backgroundCells[0][0].rectF.left += 50;
-                    backgroundCells[0][0].rectF.right += 50;
-                    break;
-                case STOP:
-                    break;
-            }
+            gameManager.onTouchEvent(AtTouchStartX, AtTouchStartY, finishX, finishY);
         }
         invalidate();
         return true;

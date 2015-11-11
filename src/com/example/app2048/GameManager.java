@@ -10,11 +10,30 @@ public class GameManager {
     private CanvasView canvasView;
     private int width;
     private int height;
+    private ActingCell[][] actingCells;
 
     public GameManager(CanvasView canvasView, int width, int height) {
         this.canvasView=canvasView;
         this.width=width;
         this.height=height;
+        actingCells = new ActingCell[4][4];
+        initActingCells();
+    }
+
+    public void onTouchEvent(int startX, int startY, int finishX, int finishY) {
+
+        switch (checkDirection(startX, startY, finishX, finishY)) {
+            case UP:
+                break;
+            case DOWN:
+                break;
+            case LEFT:
+                break;
+            case RIGHT:
+                break;
+            case STOP:
+                break;
+        }
     }
 
     public void onDraw(Canvas canvas) {
