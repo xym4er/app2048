@@ -4,27 +4,34 @@ import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-import java.util.ArrayList;
-
-/**
- * Created by ChornyiUA on 09.11.2015.
- */
 public class CanvasView extends View {
+
+    private Canvas canvas;
+    public static final int BACKGROUND_START_X = 30;
+    public static final int BACKGROUND_START_Y = 300;
+    public static final int BACKGROUND_WIDTH = 1020;
+    public static final int PADDING = 20;
+    public static final int CELL_WIDTH = 230;
+    private int startX = 0;
+    private int startY = 0;
+    private int finishX = 0;
+    private int finishY = 0;
     private static int width;
     private static int height;
     private GameManager gameManager;
-    private Cell[][] cells=new Cell[4][4];
+    private Cell[][] backgroundCells = new Cell[4][4];
     private Paint paint;
-    private RectF backgroundRectF= new RectF(30,300,30+1020,300+1020);
+    private RectF backgroundRectF = new RectF(BACKGROUND_START_X, BACKGROUND_START_Y, BACKGROUND_START_X + BACKGROUND_WIDTH, BACKGROUND_START_Y + BACKGROUND_WIDTH);
 
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initWidthAndHeight(context);
-        gameManager=new GameManager(this, width, height);
+        gameManager = new GameManager(this, width, height);
         initPaint();
         initField();
     }
@@ -49,31 +56,59 @@ public class CanvasView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawRGB(210,214,219);
-        paint.setColor(Color.rgb(147,167,175));
-        canvas.drawRoundRect(backgroundRectF,40,40,paint);
-        paint.setColor(Color.rgb(205,214,219));
-        for (int i = 0; i <4 ; i++) {
+        canvas.drawRGB(210, 214, 219);
+        paint.setColor(Color.rgb(147, 167, 175));
+        canvas.drawRoundRect(backgroundRectF, 40, 40, paint);
+        paint.setColor(Color.rgb(205, 214, 219));
+        for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                canvas.drawRoundRect(cells[i][j].getRectF(),20,20,paint);
+                canvas.drawRoundRect(backgroundCells[i][j].getRectF(), 20, 20, paint);
             }
         }
-
         gameManager.onDraw(canvas);
     }
 
     @Override
-    public void setOnTouchListener(OnTouchListener l) {
-        super.setOnTouchListener(l);
-        cells[0][0].setRectF(new RectF(200,200,430,430));
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            startX = (int) event.getX();
+            startY = (int) event.getY();
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            finishX = (int) event.getX();
+            finishY = (int) event.getY();
+            switch (gameManager.checkDirection(startX, startY, finishX, finishY)) {
+                case UP:
+                    backgroundCells[0][0].rectF.top -= 50;
+                    backgroundCells[0][0].rectF.bottom -= 50;
+                    break;
+                case DOWN:
+                    backgroundCells[0][0].rectF.top += 50;
+                    backgroundCells[0][0].rectF.bottom += 50;
+                    break;
+                case LEFT:
+                    backgroundCells[0][0].rectF.left -= 50;
+                    backgroundCells[0][0].rectF.right -= 50;
+                    break;
+                case RIGHT:
+                    backgroundCells[0][0].rectF.left += 50;
+                    backgroundCells[0][0].rectF.right += 50;
+                    break;
+                case STOP:
+                    break;
+            }
+        }
+        invalidate();
+        return true;
     }
 
+
+
     private void initField() {
-        for (int i = 0; i <4 ; i++) {
+        for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                cells[i][j]=new Cell(30+20+20*i+i*230,300+20+20*j+j*230);
+                backgroundCells[i][j] = new Cell(BACKGROUND_START_X + PADDING + (PADDING + CELL_WIDTH) * i, BACKGROUND_START_Y + PADDING + (PADDING + CELL_WIDTH) * j);
             }
         }
     }
 }
-//,

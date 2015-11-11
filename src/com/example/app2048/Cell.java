@@ -9,7 +9,7 @@ public class Cell {
     public static final int CELL_WIDTH = 230;
     private int x;
     private int y;
-    private RectF rectF;
+    public RectF rectF;
 
     public Cell(int x, int y) {
         this.x = x;
