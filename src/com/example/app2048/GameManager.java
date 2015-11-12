@@ -61,25 +61,25 @@ public class GameManager {
         switch (checkDirection(startX, startY, finishX, finishY)) {
             case UP:
                 swipeUp();
-                if(haveFreeCell()) {
+                if (haveFreeCell()) {
                     makeRandomActingCell();
                 }
                 break;
             case DOWN:
                 swipeDown();
-                if(haveFreeCell()) {
+                if (haveFreeCell()) {
                     makeRandomActingCell();
                 }
                 break;
             case LEFT:
                 swipeLeft();
-                if(haveFreeCell()) {
+                if (haveFreeCell()) {
                     makeRandomActingCell();
                 }
                 break;
             case RIGHT:
                 swipeRight();
-                if(haveFreeCell()) {
+                if (haveFreeCell()) {
                     makeRandomActingCell();
                 }
                 break;
@@ -91,8 +91,8 @@ public class GameManager {
 
     private boolean haveFreeCell() {
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j <4; j++) {
-                if (actingCells[i][j].getValue()==0){
+            for (int j = 0; j < 4; j++) {
+                if (actingCells[i][j].getValue() == 0) {
                     return true;
                 }
             }
@@ -110,19 +110,19 @@ public class GameManager {
                 if (actingCells[row][col].getValue() == 0) {
                     row--;
                     // ќпорна€ €чейка пуста, переносим в нее значение текущей
-                    } else if (actingCells[pivot][col].getValue() == 0) {
-                        actingCells[pivot][col].setValue(actingCells[row][col].getValue());
-                        actingCells[row--][col].setValue(0);
-                        }
-                        // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
-                        else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
-                            actingCells[pivot--][col].doubleValue();
-                            actingCells[row--][col].setValue(0);
-                            }
-                            // Ќечего двигать Ч едем дальше
-                            else if (--pivot == row) {
-                                row--;
-                                }
+                } else if (actingCells[pivot][col].getValue() == 0) {
+                    actingCells[pivot][col].setValue(actingCells[row][col].getValue());
+                    actingCells[row--][col].setValue(0);
+                }
+                // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
+                else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
+                    actingCells[pivot--][col].doubleValue();
+                    actingCells[row--][col].setValue(0);
+                }
+                // Ќечего двигать Ч едем дальше
+                else if (--pivot == row) {
+                    row--;
+                }
 
             }
         }
@@ -138,19 +138,19 @@ public class GameManager {
                 if (actingCells[row][col].getValue() == 0) {
                     row++;
                     // ќпорна€ €чейка пуста, переносим в нее значение текущей
-                    } else if (actingCells[pivot][col].getValue() == 0) {
-                        actingCells[pivot][col].setValue(actingCells[row][col].getValue());
-                        actingCells[row++][col].setValue(0);
-                        }
-                        // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
-                        else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
-                            actingCells[pivot++][col].doubleValue();
-                            actingCells[row++][col].setValue(0);
-                            }
-                            // Ќечего двигать Ч едем дальше
-                            else if (++pivot == row) {
-                                row++;
-                                }
+                } else if (actingCells[pivot][col].getValue() == 0) {
+                    actingCells[pivot][col].setValue(actingCells[row][col].getValue());
+                    actingCells[row++][col].setValue(0);
+                }
+                // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
+                else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
+                    actingCells[pivot++][col].doubleValue();
+                    actingCells[row++][col].setValue(0);
+                }
+                // Ќечего двигать Ч едем дальше
+                else if (++pivot == row) {
+                    row++;
+                }
 
             }
         }
@@ -161,28 +161,29 @@ public class GameManager {
         int row;
         for (int col = 0; col < 4; col++) {
             // ѕровер€ема€ (опорна€) и текуща€ €чейки
-            pivot = 3; row = 2;
+            pivot = 3;
+            row = 2;
 
             while (row >= 0) {
                 // “екуща€ €чейка пуста, переходим на следующую
                 if (actingCells[col][row].getValue() == 0) {
                     row--;
                     // ќпорна€ €чейка пуста, переносим в нее значение текущей
-                    } else if (actingCells[col][pivot].getValue() == 0) {
-                        actingCells[col][pivot].setValue(actingCells[col][row].getValue());
-                        actingCells[col][row].setValue(0);
-                        actingCells[col][row--].setMoving(true);
-                        }
-                        // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
-                        else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
-                            actingCells[col][pivot--].doubleValue();
-                            actingCells[col][row].setValue(0);
-                            actingCells[col][row--].setMoving(true);
-                            }
-                            // Ќечего двигать Ч едем дальше
-                            else if (--pivot == row) {
-                                row--;
-                                }
+                } else if (actingCells[col][pivot].getValue() == 0) {
+                    actingCells[col][pivot].setValue(actingCells[col][row].getValue());
+                    actingCells[col][row].setValue(0);
+                    actingCells[col][row--].setMoving(true);
+                }
+                // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
+                else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
+                    actingCells[col][pivot--].doubleValue();
+                    actingCells[col][row].setValue(0);
+                    actingCells[col][row--].setMoving(true);
+                }
+                // Ќечего двигать Ч едем дальше
+                else if (--pivot == row) {
+                    row--;
+                }
 
             }
         }
@@ -201,22 +202,22 @@ public class GameManager {
                 if (actingCells[col][row].getValue() == 0) {
                     row++;
                     // ќпорна€ €чейка пуста, переносим в нее значение текущей
-                    } else if (actingCells[col][pivot].getValue() == 0) {
-                        actingCells[col][pivot].setValue(actingCells[col][row].getValue());
-                        actingCells[col][row].setMoving(true);
-                        actingCells[col][row++].setValue(0);
+                } else if (actingCells[col][pivot].getValue() == 0) {
+                    actingCells[col][pivot].setValue(actingCells[col][row].getValue());
+                    actingCells[col][row].setMoving(true);
+                    actingCells[col][row++].setValue(0);
 
-                        }
-                        // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
-                        else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
-                            actingCells[col][pivot++].doubleValue();
-                            actingCells[col][row].setValue(0);
-                            actingCells[col][row++].setMoving(true);
-                            }
-                            // Ќечего двигать Ч едем дальше
-                            else if (++pivot == row) {
-                                row++;
-                                 }
+                }
+                // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
+                else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
+                    actingCells[col][pivot++].doubleValue();
+                    actingCells[col][row].setValue(0);
+                    actingCells[col][row++].setMoving(true);
+                }
+                // Ќечего двигать Ч едем дальше
+                else if (++pivot == row) {
+                    row++;
+                }
 
             }
         }

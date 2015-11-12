@@ -6,7 +6,6 @@ import android.graphics.RectF;
  * Created by ChornyiUA on 09.11.2015.
  */
 public class Cell {
-    public static final int CELL_WIDTH = 230;
     protected int x;
     protected int y;
     protected RectF rectF;
@@ -14,7 +13,7 @@ public class Cell {
     public Cell(int x, int y) {
         this.x = x;
         this.y = y;
-        rectF = new RectF(x,y,x+CELL_WIDTH,y+CELL_WIDTH);
+        rectF = new RectF(x, y, x + CanvasView.CELL_WIDTH, y + CanvasView.CELL_WIDTH);
     }
 
     public int getX() {

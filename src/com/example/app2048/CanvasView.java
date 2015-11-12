@@ -13,11 +13,11 @@ import java.util.HashMap;
 public class CanvasView extends View {
 
     private Canvas canvas;
-    public static final int BACKGROUND_START_X = 30;
-    public static final int BACKGROUND_START_Y = 300;
-    public static final int BACKGROUND_WIDTH = 1020;
-    public static final int PADDING = 20;
-    public static final int CELL_WIDTH = 230;
+    public static int BACKGROUND_START_X;
+    public static int BACKGROUND_START_Y;
+    public static int BACKGROUND_WIDTH;
+    public static int PADDING;
+    public static int CELL_WIDTH;
     private int AtTouchStartX = 0;
     private int AtTouchStartY = 0;
     private int finishX = 0;
@@ -26,16 +26,23 @@ public class CanvasView extends View {
     private static int height;
     private GameManager gameManager;
     private Cell[][] backgroundCells = new Cell[4][4];
-    private HashMap<Integer,Integer> colorMapForCell = new HashMap<Integer, Integer>();
-    private HashMap<Integer,Integer> colorMapForText = new HashMap<Integer, Integer>();
+    private HashMap<Integer, Integer> colorMapForCell = new HashMap<Integer, Integer>();
+    private HashMap<Integer, Integer> colorMapForText = new HashMap<Integer, Integer>();
     private Paint paint;
-    private RectF backgroundRectF = new RectF(BACKGROUND_START_X, BACKGROUND_START_Y, BACKGROUND_START_X + BACKGROUND_WIDTH, BACKGROUND_START_Y + BACKGROUND_WIDTH);
+    private RectF backgroundRectF;
 
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         initWidthAndHeight(context);
+        BACKGROUND_START_X = (int) (width * 0.025);
+        BACKGROUND_START_Y = (int) (height * 0.25);
+        PADDING = (int) (width * 0.02);
+        BACKGROUND_WIDTH = (int) (width * 0.95);
+        CELL_WIDTH = (int) (width * 0.2125);
+        backgroundRectF = new RectF(BACKGROUND_START_X, BACKGROUND_START_Y, BACKGROUND_START_X + BACKGROUND_WIDTH, BACKGROUND_START_Y + BACKGROUND_WIDTH);
+
         gameManager = new GameManager(this, width, height);
         initPaint();
         initField();
@@ -64,6 +71,7 @@ public class CanvasView extends View {
         colorMapForCell.put(131072, Color.rgb(78, 52, 46));
         colorMapForCell.put(262144, Color.rgb(0, 0, 0));
     }
+
     private void initColorMapForText() {
         colorMapForText.put(0, 0x00000000);
         colorMapForText.put(2, Color.rgb(0, 0, 0));
@@ -122,7 +130,7 @@ public class CanvasView extends View {
                 paint.setColor(colorMapForCell.get(gameManager.getActingCells()[i][j].getValue()));
                 canvas.drawRoundRect(gameManager.getActingCells()[i][j].getRectF(), 20, 20, paint);
                 paint.setColor(colorMapForText.get(gameManager.getActingCells()[i][j].getValue()));
-                canvas.drawText(gameManager.getActingCells()[i][j].getValue()+"",gameManager.getActingCells()[i][j].getX()+90,gameManager.getActingCells()[i][j].getY()+135,paint);
+                canvas.drawText(gameManager.getActingCells()[i][j].getValue() + "", gameManager.getActingCells()[i][j].getX() + 90, gameManager.getActingCells()[i][j].getY() + 135, paint);
 
             }
         }
