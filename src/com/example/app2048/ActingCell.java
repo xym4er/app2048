@@ -5,12 +5,19 @@ package com.example.app2048;
  */
 public class ActingCell extends Cell {
     private int value;
-    private boolean isVoid;
+    private boolean moving;
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
 
     public ActingCell(int x, int y) {
         super(x, y);
-        value = 2;
-        isVoid = true;
+        value = 0;
     }
 
     public void doubleValue() {
@@ -19,5 +26,9 @@ public class ActingCell extends Cell {
 
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }
