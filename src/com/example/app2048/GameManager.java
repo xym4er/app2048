@@ -10,24 +10,19 @@ import java.util.Random;
 public class GameManager {
     public enum direction {UP, DOWN, LEFT, RIGHT, STOP}
 
-    private CanvasView canvasView;
-    private int width;
-    private int height;
     private ActingCell[][] actingCells;
-    final Random random = new Random();
+    private final Random random = new Random();
+    private boolean canMakeNewCell;
     private int randomI;
     private int randomJ;
 
-    public ActingCell[][] getActingCells() {
-        return actingCells;
+    public GameManager() {
+        initActingCells();
+        canMakeNewCell = false;
     }
 
-    public GameManager(CanvasView canvasView, int width, int height) {
-        this.canvasView = canvasView;
-        this.width = width;
-        this.height = height;
-
-        initActingCells();
+    public ActingCell[][] getActingCells() {
+        return actingCells;
     }
 
     private void initActingCells() {
@@ -57,36 +52,38 @@ public class GameManager {
     }
 
     public void onTouchEvent(int startX, int startY, int finishX, int finishY) {
-
         switch (checkDirection(startX, startY, finishX, finishY)) {
             case UP:
                 swipeUp();
-                if (haveFreeCell()) {
+                if (haveFreeCell() & canMakeNewCell) {
                     makeRandomActingCell();
+                    canMakeNewCell = false;
                 }
                 break;
             case DOWN:
                 swipeDown();
-                if (haveFreeCell()) {
+                if (haveFreeCell() & canMakeNewCell) {
                     makeRandomActingCell();
+                    canMakeNewCell = false;
                 }
                 break;
             case LEFT:
                 swipeLeft();
-                if (haveFreeCell()) {
+                if (haveFreeCell() & canMakeNewCell) {
                     makeRandomActingCell();
+                    canMakeNewCell = false;
                 }
                 break;
             case RIGHT:
                 swipeRight();
-                if (haveFreeCell()) {
+                if (haveFreeCell() & canMakeNewCell) {
                     makeRandomActingCell();
+                    canMakeNewCell = false;
                 }
                 break;
             case STOP:
                 break;
         }
-
     }
 
     private boolean haveFreeCell() {
@@ -104,7 +101,6 @@ public class GameManager {
         for (int col = 0; col < 4; col++) {
             // ѕровер€ема€ (опорна€) и текуща€ €чейки
             int pivot = 3, row = 2;
-
             while (row >= 0) {
                 // “екуща€ €чейка пуста, переходим на следующую
                 if (actingCells[row][col].getValue() == 0) {
@@ -113,17 +109,18 @@ public class GameManager {
                 } else if (actingCells[pivot][col].getValue() == 0) {
                     actingCells[pivot][col].setValue(actingCells[row][col].getValue());
                     actingCells[row--][col].setValue(0);
+                    canMakeNewCell = true;
                 }
                 // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
                 else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
                     actingCells[pivot--][col].doubleValue();
                     actingCells[row--][col].setValue(0);
+                    canMakeNewCell = true;
                 }
                 // Ќечего двигать Ч едем дальше
                 else if (--pivot == row) {
                     row--;
                 }
-
             }
         }
     }
@@ -132,7 +129,6 @@ public class GameManager {
         for (int col = 0; col < 4; col++) {
             // ѕровер€ема€ (опорна€) и текуща€ €чейки
             int pivot = 0, row = 1;
-
             while (row < 4) {
                 // “екуща€ €чейка пуста, переходим на следующую
                 if (actingCells[row][col].getValue() == 0) {
@@ -141,17 +137,18 @@ public class GameManager {
                 } else if (actingCells[pivot][col].getValue() == 0) {
                     actingCells[pivot][col].setValue(actingCells[row][col].getValue());
                     actingCells[row++][col].setValue(0);
+                    canMakeNewCell = true;
                 }
                 // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
                 else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
                     actingCells[pivot++][col].doubleValue();
                     actingCells[row++][col].setValue(0);
+                    canMakeNewCell = true;
                 }
                 // Ќечего двигать Ч едем дальше
                 else if (++pivot == row) {
                     row++;
                 }
-
             }
         }
     }
@@ -163,7 +160,6 @@ public class GameManager {
             // ѕровер€ема€ (опорна€) и текуща€ €чейки
             pivot = 3;
             row = 2;
-
             while (row >= 0) {
                 // “екуща€ €чейка пуста, переходим на следующую
                 if (actingCells[col][row].getValue() == 0) {
@@ -173,18 +169,19 @@ public class GameManager {
                     actingCells[col][pivot].setValue(actingCells[col][row].getValue());
                     actingCells[col][row].setValue(0);
                     actingCells[col][row--].setMoving(true);
+                    canMakeNewCell = true;
                 }
                 // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
                 else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
                     actingCells[col][pivot--].doubleValue();
                     actingCells[col][row].setValue(0);
                     actingCells[col][row--].setMoving(true);
+                    canMakeNewCell = true;
                 }
                 // Ќечего двигать Ч едем дальше
                 else if (--pivot == row) {
                     row--;
                 }
-
             }
         }
     }
@@ -196,7 +193,6 @@ public class GameManager {
             // ѕровер€ема€ (опорна€) и текуща€ €чейки
             pivot = 0;
             row = 1;
-
             while (row < 4) {
                 // “екуща€ €чейка пуста, переходим на следующую
                 if (actingCells[col][row].getValue() == 0) {
@@ -206,29 +202,25 @@ public class GameManager {
                     actingCells[col][pivot].setValue(actingCells[col][row].getValue());
                     actingCells[col][row].setMoving(true);
                     actingCells[col][row++].setValue(0);
-
+                    canMakeNewCell = true;
                 }
                 // «начени€ опорной и текущей €чеек совпадают Ч складываем их и переходим на следующую строчку
                 else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
                     actingCells[col][pivot++].doubleValue();
                     actingCells[col][row].setValue(0);
                     actingCells[col][row++].setMoving(true);
+                    canMakeNewCell = true;
                 }
                 // Ќечего двигать Ч едем дальше
                 else if (++pivot == row) {
                     row++;
                 }
-
             }
         }
     }
 
-    public void onDraw(Canvas canvas) {
-
-    }
-
     public direction checkDirection(int startX, int startY, int finishX, int finishY) {
-        if ((Math.abs(startY - finishY) > 50) && (Math.abs(startY - finishY) > Math.abs(startX - finishX))) {
+        if ((Math.abs(startY - finishY) > CanvasView.CELL_WIDTH*0.3) && (Math.abs(startY - finishY) > Math.abs(startX - finishX))) {
             if (startY > finishY) {
                 return direction.UP;
             }
@@ -236,7 +228,7 @@ public class GameManager {
                 return direction.DOWN;
             }
         }
-        if ((Math.abs(startX - finishX) > 50) && (Math.abs(startY - finishY) < Math.abs(startX - finishX))) {
+        if ((Math.abs(startX - finishX) > CanvasView.CELL_WIDTH*0.3) && (Math.abs(startY - finishY) <= Math.abs(startX - finishX))) {
             if (startX > finishX) {
                 return direction.LEFT;
             }

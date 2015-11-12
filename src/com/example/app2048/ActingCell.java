@@ -7,14 +7,6 @@ public class ActingCell extends Cell {
     private int value;
     private boolean moving;
 
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
-
     public ActingCell(int x, int y) {
         super(x, y);
         value = 0;
@@ -24,11 +16,19 @@ public class ActingCell extends Cell {
         value = value * 2;
     }
 
+    public boolean getMoving() {
+        return moving;
+    }
+
     public int getValue() {
         return value;
     }
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 }

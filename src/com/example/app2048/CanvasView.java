@@ -11,17 +11,15 @@ import android.view.WindowManager;
 import java.util.HashMap;
 
 public class CanvasView extends View {
-
-    private Canvas canvas;
     public static int BACKGROUND_START_X;
     public static int BACKGROUND_START_Y;
     public static int BACKGROUND_WIDTH;
     public static int PADDING;
     public static int CELL_WIDTH;
-    private int AtTouchStartX = 0;
-    private int AtTouchStartY = 0;
-    private int finishX = 0;
-    private int finishY = 0;
+    private int atTouchStartX = 0;
+    private int atTouchStartY = 0;
+    private int atTouchFinishX = 0;
+    private int atTouchFinishY = 0;
     private static int width;
     private static int height;
     private GameManager gameManager;
@@ -34,7 +32,6 @@ public class CanvasView extends View {
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         initWidthAndHeight(context);
         BACKGROUND_START_X = (int) (width * 0.025);
         BACKGROUND_START_Y = (int) (height * 0.25);
@@ -42,8 +39,7 @@ public class CanvasView extends View {
         BACKGROUND_WIDTH = (int) (width * 0.95);
         CELL_WIDTH = (int) (width * 0.2125);
         backgroundRectF = new RectF(BACKGROUND_START_X, BACKGROUND_START_Y, BACKGROUND_START_X + BACKGROUND_WIDTH, BACKGROUND_START_Y + BACKGROUND_WIDTH);
-
-        gameManager = new GameManager(this, width, height);
+        gameManager = new GameManager();
         initPaint();
         initField();
         initColorMapForCells();
@@ -106,7 +102,8 @@ public class CanvasView extends View {
     private void initPaint() {
         paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setTextSize(60);
+        paint.setTextSize((int) (CELL_WIDTH * 0.3));
+        paint.setFakeBoldText(true);
         paint.setStyle(Paint.Style.FILL);
 
     }
@@ -114,43 +111,37 @@ public class CanvasView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        this.canvas = canvas;
         canvas.drawRGB(210, 214, 219);
         paint.setColor(Color.rgb(147, 167, 175));
-        canvas.drawRoundRect(backgroundRectF, 40, 40, paint);
+        canvas.drawRoundRect(backgroundRectF, (int) (CELL_WIDTH * 0.244), (int) (CELL_WIDTH * 0.244), paint);
         paint.setColor(Color.rgb(205, 214, 219));
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                canvas.drawRoundRect(backgroundCells[i][j].getRectF(), 20, 20, paint);
+                canvas.drawRoundRect(backgroundCells[i][j].getRectF(), (int) (CELL_WIDTH * 0.122), (int) (CELL_WIDTH * 0.122), paint);
             }
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-
                 paint.setColor(colorMapForCell.get(gameManager.getActingCells()[i][j].getValue()));
-                canvas.drawRoundRect(gameManager.getActingCells()[i][j].getRectF(), 20, 20, paint);
+                canvas.drawRoundRect(gameManager.getActingCells()[i][j].getRectF(), (int) (CELL_WIDTH * 0.122), (int) (CELL_WIDTH * 0.122), paint);
                 paint.setColor(colorMapForText.get(gameManager.getActingCells()[i][j].getValue()));
-                canvas.drawText(gameManager.getActingCells()[i][j].getValue() + "", gameManager.getActingCells()[i][j].getX() + 90, gameManager.getActingCells()[i][j].getY() + 135, paint);
-
+                canvas.drawText(gameManager.getActingCells()[i][j].getValue() + "", gameManager.getActingCells()[i][j].getX() + (int) (CELL_WIDTH * 0.35), gameManager.getActingCells()[i][j].getY() + (int) (CELL_WIDTH * 0.6), paint);
             }
         }
-
-        gameManager.onDraw(canvas);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            AtTouchStartX = (int) event.getX();
-            AtTouchStartY = (int) event.getY();
+            atTouchStartX = (int) event.getX();
+            atTouchStartY = (int) event.getY();
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            finishX = (int) event.getX();
-            finishY = (int) event.getY();
-            gameManager.onTouchEvent(AtTouchStartX, AtTouchStartY, finishX, finishY);
+            atTouchFinishX = (int) event.getX();
+            atTouchFinishY = (int) event.getY();
+            gameManager.onTouchEvent(atTouchStartX, atTouchStartY, atTouchFinishX, atTouchFinishY);
             invalidate();
         }
-
         return true;
     }
 

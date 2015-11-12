@@ -24,10 +24,6 @@ public class Cell {
         return y;
     }
 
-    public void setRectF(RectF rectF) {
-        this.rectF = rectF;
-    }
-
     public RectF getRectF() {
         return rectF;
     }
