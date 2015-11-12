@@ -99,25 +99,25 @@ public class GameManager {
 
     private void swipeRight() {
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // РџСЂРѕРІРµСЂСЏРµРјР°СЏ (РѕРїРѕСЂРЅР°СЏ) Рё С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєРё
             int pivot = 3, row = 2;
             while (row >= 0) {
-                // Текущая ячейка пуста, переходим на следующую
+                // РўРµРєСѓС‰Р°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ
                 if (actingCells[row][col].getValue() == 0) {
                     row--;
-                    // Опорная ячейка пуста, переносим в нее значение текущей
+                    // РћРїРѕСЂРЅР°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµРЅРѕСЃРёРј РІ РЅРµРµ Р·РЅР°С‡РµРЅРёРµ С‚РµРєСѓС‰РµР№
                 } else if (actingCells[pivot][col].getValue() == 0) {
                     actingCells[pivot][col].setValue(actingCells[row][col].getValue());
                     actingCells[row--][col].setValue(0);
                     canMakeNewCell = true;
                 }
-                // Значения опорной и текущей ячеек совпадают — складываем их и переходим на следующую строчку
+                // Р—РЅР°С‡РµРЅРёСЏ РѕРїРѕСЂРЅРѕР№ Рё С‚РµРєСѓС‰РµР№ СЏС‡РµРµРє СЃРѕРІРїР°РґР°СЋС‚ вЂ” СЃРєР»Р°РґС‹РІР°РµРј РёС… Рё РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚СЂРѕС‡РєСѓ
                 else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
                     actingCells[pivot--][col].doubleValue();
                     actingCells[row--][col].setValue(0);
                     canMakeNewCell = true;
                 }
-                // Нечего двигать — едем дальше
+                // РќРµС‡РµРіРѕ РґРІРёРіР°С‚СЊ вЂ” РµРґРµРј РґР°Р»СЊС€Рµ
                 else if (--pivot == row) {
                     row--;
                 }
@@ -127,25 +127,25 @@ public class GameManager {
 
     private void swipeLeft() {
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // РџСЂРѕРІРµСЂСЏРµРјР°СЏ (РѕРїРѕСЂРЅР°СЏ) Рё С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєРё
             int pivot = 0, row = 1;
             while (row < 4) {
-                // Текущая ячейка пуста, переходим на следующую
+                // РўРµРєСѓС‰Р°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ
                 if (actingCells[row][col].getValue() == 0) {
                     row++;
-                    // Опорная ячейка пуста, переносим в нее значение текущей
+                    // РћРїРѕСЂРЅР°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµРЅРѕСЃРёРј РІ РЅРµРµ Р·РЅР°С‡РµРЅРёРµ С‚РµРєСѓС‰РµР№
                 } else if (actingCells[pivot][col].getValue() == 0) {
                     actingCells[pivot][col].setValue(actingCells[row][col].getValue());
                     actingCells[row++][col].setValue(0);
                     canMakeNewCell = true;
                 }
-                // Значения опорной и текущей ячеек совпадают — складываем их и переходим на следующую строчку
+                // Р—РЅР°С‡РµРЅРёСЏ РѕРїРѕСЂРЅРѕР№ Рё С‚РµРєСѓС‰РµР№ СЏС‡РµРµРє СЃРѕРІРїР°РґР°СЋС‚ вЂ” СЃРєР»Р°РґС‹РІР°РµРј РёС… Рё РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚СЂРѕС‡РєСѓ
                 else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
                     actingCells[pivot++][col].doubleValue();
                     actingCells[row++][col].setValue(0);
                     canMakeNewCell = true;
                 }
-                // Нечего двигать — едем дальше
+                // РќРµС‡РµРіРѕ РґРІРёРіР°С‚СЊ вЂ” РµРґРµРј РґР°Р»СЊС€Рµ
                 else if (++pivot == row) {
                     row++;
                 }
@@ -157,28 +157,28 @@ public class GameManager {
         int pivot;
         int row;
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // РџСЂРѕРІРµСЂСЏРµРјР°СЏ (РѕРїРѕСЂРЅР°СЏ) Рё С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєРё
             pivot = 3;
             row = 2;
             while (row >= 0) {
-                // Текущая ячейка пуста, переходим на следующую
+                // РўРµРєСѓС‰Р°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ
                 if (actingCells[col][row].getValue() == 0) {
                     row--;
-                    // Опорная ячейка пуста, переносим в нее значение текущей
+                    // РћРїРѕСЂРЅР°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµРЅРѕСЃРёРј РІ РЅРµРµ Р·РЅР°С‡РµРЅРёРµ С‚РµРєСѓС‰РµР№
                 } else if (actingCells[col][pivot].getValue() == 0) {
                     actingCells[col][pivot].setValue(actingCells[col][row].getValue());
                     actingCells[col][row].setValue(0);
                     actingCells[col][row--].setMoving(true);
                     canMakeNewCell = true;
                 }
-                // Значения опорной и текущей ячеек совпадают — складываем их и переходим на следующую строчку
+                // Р—РЅР°С‡РµРЅРёСЏ РѕРїРѕСЂРЅРѕР№ Рё С‚РµРєСѓС‰РµР№ СЏС‡РµРµРє СЃРѕРІРїР°РґР°СЋС‚ вЂ” СЃРєР»Р°РґС‹РІР°РµРј РёС… Рё РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚СЂРѕС‡РєСѓ
                 else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
                     actingCells[col][pivot--].doubleValue();
                     actingCells[col][row].setValue(0);
                     actingCells[col][row--].setMoving(true);
                     canMakeNewCell = true;
                 }
-                // Нечего двигать — едем дальше
+                // РќРµС‡РµРіРѕ РґРІРёРіР°С‚СЊ вЂ” РµРґРµРј РґР°Р»СЊС€Рµ
                 else if (--pivot == row) {
                     row--;
                 }
@@ -190,28 +190,28 @@ public class GameManager {
         int pivot;
         int row;
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // РџСЂРѕРІРµСЂСЏРµРјР°СЏ (РѕРїРѕСЂРЅР°СЏ) Рё С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєРё
             pivot = 0;
             row = 1;
             while (row < 4) {
-                // Текущая ячейка пуста, переходим на следующую
+                // РўРµРєСѓС‰Р°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ
                 if (actingCells[col][row].getValue() == 0) {
                     row++;
-                    // Опорная ячейка пуста, переносим в нее значение текущей
+                    // РћРїРѕСЂРЅР°СЏ СЏС‡РµР№РєР° РїСѓСЃС‚Р°, РїРµСЂРµРЅРѕСЃРёРј РІ РЅРµРµ Р·РЅР°С‡РµРЅРёРµ С‚РµРєСѓС‰РµР№
                 } else if (actingCells[col][pivot].getValue() == 0) {
                     actingCells[col][pivot].setValue(actingCells[col][row].getValue());
                     actingCells[col][row].setMoving(true);
                     actingCells[col][row++].setValue(0);
                     canMakeNewCell = true;
                 }
-                // Значения опорной и текущей ячеек совпадают — складываем их и переходим на следующую строчку
+                // Р—РЅР°С‡РµРЅРёСЏ РѕРїРѕСЂРЅРѕР№ Рё С‚РµРєСѓС‰РµР№ СЏС‡РµРµРє СЃРѕРІРїР°РґР°СЋС‚ вЂ” СЃРєР»Р°РґС‹РІР°РµРј РёС… Рё РїРµСЂРµС…РѕРґРёРј РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚СЂРѕС‡РєСѓ
                 else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
                     actingCells[col][pivot++].doubleValue();
                     actingCells[col][row].setValue(0);
                     actingCells[col][row++].setMoving(true);
                     canMakeNewCell = true;
                 }
-                // Нечего двигать — едем дальше
+                // РќРµС‡РµРіРѕ РґРІРёРіР°С‚СЊ вЂ” РµРґРµРј РґР°Р»СЊС€Рµ
                 else if (++pivot == row) {
                     row++;
                 }
