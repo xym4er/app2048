@@ -1,5 +1,6 @@
 package com.example.app2048;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
@@ -29,22 +30,27 @@ public class CanvasView extends View {
     private Paint paint;
     private RectF backgroundRectF;
 
-
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initWidthAndHeight(context);
         BACKGROUND_START_X = (int) (width * 0.025);
-        BACKGROUND_START_Y = (int) (height * 0.25);
+        BACKGROUND_START_Y = (int) (height * 0.28);
         PADDING = (int) (width * 0.02);
         BACKGROUND_WIDTH = (int) (width * 0.95);
         CELL_WIDTH = (int) (width * 0.2125);
         backgroundRectF = new RectF(BACKGROUND_START_X, BACKGROUND_START_Y, BACKGROUND_START_X + BACKGROUND_WIDTH, BACKGROUND_START_Y + BACKGROUND_WIDTH);
-        gameManager = new GameManager();
+        gameManager = new GameManager(context);
         initPaint();
         initField();
         initColorMapForCells();
         initColorMapForText();
     }
+
+    public void restart(){
+        gameManager = new GameManager(getContext());
+    }
+
+
 
     private void initColorMapForCells() {
         colorMapForCell.put(0, 0x00000000);
@@ -70,24 +76,24 @@ public class CanvasView extends View {
 
     private void initColorMapForText() {
         colorMapForText.put(0, 0x00000000);
-        colorMapForText.put(2, Color.rgb(0, 0, 0));
-        colorMapForText.put(4, Color.rgb(0, 0, 0));
-        colorMapForText.put(8, Color.rgb(0, 0, 0));
-        colorMapForText.put(16, Color.rgb(0, 0, 0));
-        colorMapForText.put(32, Color.rgb(0, 0, 0));
-        colorMapForText.put(64, Color.rgb(0, 0, 0));
-        colorMapForText.put(128, Color.rgb(0, 0, 0));
-        colorMapForText.put(256, Color.rgb(0, 0, 0));
-        colorMapForText.put(512, Color.rgb(0, 0, 0));
-        colorMapForText.put(1024, Color.rgb(0, 0, 0));
-        colorMapForText.put(2048, Color.rgb(0, 0, 0));
-        colorMapForText.put(4096, Color.rgb(255, 255, 255));
-        colorMapForText.put(8192, Color.rgb(255, 255, 255));
-        colorMapForText.put(16384, Color.rgb(255, 255, 255));
-        colorMapForText.put(32768, Color.rgb(255, 255, 255));
-        colorMapForText.put(65536, Color.rgb(255, 255, 255));
-        colorMapForText.put(131072, Color.rgb(255, 255, 255));
-        colorMapForText.put(262144, Color.rgb(255, 255, 255));
+        colorMapForText.put(2, 0xFF5D544B);
+        colorMapForText.put(4, 0xFF5D544B);
+        colorMapForText.put(8, 0xFF5D544B);
+        colorMapForText.put(16, 0xFF5D544B);
+        colorMapForText.put(32, 0xFF5D544B);
+        colorMapForText.put(64, 0xFF5D544B);
+        colorMapForText.put(128, 0xFF5D544B);
+        colorMapForText.put(256, 0xFF5D544B);
+        colorMapForText.put(512, 0xFF5D544B);
+        colorMapForText.put(1024, 0xFF5D544B);
+        colorMapForText.put(2048, 0xFF5D544B);
+        colorMapForText.put(4096, 0xFFFFFFFF);
+        colorMapForText.put(8192, 0xFFFFFFFF);
+        colorMapForText.put(16384, 0xFFFFFFFF);
+        colorMapForText.put(32768, 0xFFFFFFFF);
+        colorMapForText.put(65536, 0xFFFFFFFF);
+        colorMapForText.put(131072, 0xFFFFFFFF);
+        colorMapForText.put(262144, 0xFFFFFFFF);
     }
 
     private void initWidthAndHeight(Context context) {
@@ -103,7 +109,9 @@ public class CanvasView extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize((int) (CELL_WIDTH * 0.3));
-        paint.setFakeBoldText(true);
+        paint.setTextAlign(Paint.Align.CENTER);
+//        paint.setFakeBoldText(true);
+        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         paint.setStyle(Paint.Style.FILL);
 
     }
@@ -111,10 +119,10 @@ public class CanvasView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawRGB(210, 214, 219);
-        paint.setColor(Color.rgb(147, 167, 175));
+        canvas.drawRGB(250,248,239);
+        paint.setColor(0xFF948B81);
         canvas.drawRoundRect(backgroundRectF, (int) (CELL_WIDTH * 0.244), (int) (CELL_WIDTH * 0.244), paint);
-        paint.setColor(Color.rgb(205, 214, 219));
+        paint.setColor(0xFFD6CDC4);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 canvas.drawRoundRect(backgroundCells[i][j].getRectF(), (int) (CELL_WIDTH * 0.122), (int) (CELL_WIDTH * 0.122), paint);
@@ -125,7 +133,7 @@ public class CanvasView extends View {
                 paint.setColor(colorMapForCell.get(gameManager.getActingCells()[i][j].getValue()));
                 canvas.drawRoundRect(gameManager.getActingCells()[i][j].getRectF(), (int) (CELL_WIDTH * 0.122), (int) (CELL_WIDTH * 0.122), paint);
                 paint.setColor(colorMapForText.get(gameManager.getActingCells()[i][j].getValue()));
-                canvas.drawText(gameManager.getActingCells()[i][j].getValue() + "", gameManager.getActingCells()[i][j].getX() + (int) (CELL_WIDTH * 0.35), gameManager.getActingCells()[i][j].getY() + (int) (CELL_WIDTH * 0.6), paint);
+                canvas.drawText(gameManager.getActingCells()[i][j].getValue() + "", gameManager.getActingCells()[i][j].getX() + (int) (CELL_WIDTH * 0.5), gameManager.getActingCells()[i][j].getY() + (int) (CELL_WIDTH * 0.625), paint);
             }
         }
     }
