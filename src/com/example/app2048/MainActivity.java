@@ -3,7 +3,6 @@ package com.example.app2048;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
-import android.view.WindowManager;
 
 public class MainActivity extends Activity {
     /**
@@ -14,7 +13,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+//        setContentView(new SurfaceGameView(this));
         setContentView(R.layout.main);
     }
 }
