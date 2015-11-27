@@ -5,7 +5,9 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:background="#FFF">
-    <com.example.app2048.CanvasView
+    <!--<com.example.app2048.CanvasView        android:layout_width="fill_parent"        android:layout_height="fill_parent"/>-->
+    <com.example.app2048.SurfaceGameView
+        android:id="@+id/game"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
 
