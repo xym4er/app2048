@@ -1,16 +1,12 @@
 package com.example.app2048;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
-/**
- * Created by ChornyiUA on 09.11.2015.
- */
 public class GameManager {
     public enum direction {UP, DOWN, LEFT, RIGHT, STOP}
 
@@ -20,11 +16,15 @@ public class GameManager {
     private int randomI;
     private int randomJ;
     private Context context;
-    private HashMap<ActingCell,ActingCell> cellsToMove = new HashMap<>();
-    private HashMap<ActingCell,ActingCell> cellsToAdd = new HashMap<>();
+    private CanvasView canvasView;
 
-    public GameManager(Context context) {
-        this.context=context;
+
+    private Map<ActingCell, ActingCell> cellsToMove = new HashMap<>();
+    private Map<ActingCell, ActingCell> cellsToAdd = new HashMap<>();
+
+    public GameManager(CanvasView canvasView, Context context) {
+        this.canvasView = canvasView;
+        this.context = context;
         initActingCells();
         canMakeNewCell = false;
     }
@@ -48,11 +48,15 @@ public class GameManager {
             randomI = random.nextInt(4);
             randomJ = random.nextInt(4);
             if (actingCells[randomI][randomJ].getValue() == 0) {
-                if (random.nextInt(10) > 8) {
+                if (random.nextInt(10) > 9) {
                     actingCells[randomI][randomJ].setValue(4);
+                    canvasView.getViewCells()[randomI][randomJ] = new ActingCell(actingCells[randomI][randomJ].getX(),actingCells[randomI][randomJ].getY());
+                    canvasView.getViewCells()[randomI][randomJ].setValue(4);
                     return;
                 } else {
                     actingCells[randomI][randomJ].setValue(2);
+                    canvasView.getViewCells()[randomI][randomJ] = new ActingCell(actingCells[randomI][randomJ].getX(),actingCells[randomI][randomJ].getY());
+                    canvasView.getViewCells()[randomI][randomJ].setValue(2);
                     return;
                 }
             }
@@ -107,7 +111,7 @@ public class GameManager {
 
     private void swipeRight() {
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // Опорная и текущая ячейки
             int pivot = 3, row = 2;
             while (row >= 0) {
                 // Текущая ячейка пуста, переходим на следующую
@@ -115,7 +119,7 @@ public class GameManager {
                     row--;
                     // Опорная ячейка пуста, переносим в нее значение текущей
                 } else if (actingCells[pivot][col].getValue() == 0) {
-                    cellsToMove.put(actingCells[row][col],actingCells[pivot][col]);
+                    cellsToMove.put(actingCells[row][col], actingCells[pivot][col]);
                     actingCells[pivot][col].setValue(actingCells[row][col].getValue());
                     actingCells[row--][col].setValue(0);
                     canMakeNewCell = true;
@@ -124,7 +128,7 @@ public class GameManager {
                 else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
                     //adding(actingCells[row][col] to actingCells[pivot][col]);
                     actingCells[pivot][col].doubleValue();
-                    if (actingCells[pivot][col].getValue() >= 64 ){
+                    if (actingCells[pivot][col].getValue() >= 64) {
                         gameWon(actingCells[pivot][col].getValue());
                     }
                     pivot--;
@@ -140,13 +144,13 @@ public class GameManager {
     }
 
     private void gameWon(int value) {
-        Toast toast = Toast.makeText(context,"Поздравляю! Вы набрали "+value, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, "Поздравляю! Вы набрали " + value, Toast.LENGTH_LONG);
         toast.show();
     }
 
     private void swipeLeft() {
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // Опорная и текущая ячейки
             int pivot = 0, row = 1;
             while (row < 4) {
                 // Текущая ячейка пуста, переходим на следующую
@@ -161,7 +165,7 @@ public class GameManager {
                 // Значения опорной и текущей ячеек совпадают — складываем их и переходим на следующую строчку
                 else if (actingCells[pivot][col].getValue() == actingCells[row][col].getValue()) {
                     actingCells[pivot][col].doubleValue();
-                    if (actingCells[pivot][col].getValue() >= 64 ){
+                    if (actingCells[pivot][col].getValue() >= 64) {
                         gameWon(actingCells[pivot][col].getValue());
                     }
                     pivot++;
@@ -180,7 +184,7 @@ public class GameManager {
         int pivot;
         int row;
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // Опорная и текущая ячейки
             pivot = 3;
             row = 2;
             while (row >= 0) {
@@ -197,7 +201,7 @@ public class GameManager {
                 // Значения опорной и текущей ячеек совпадают — складываем их и переходим на следующую строчку
                 else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
                     actingCells[col][pivot].doubleValue();
-                    if (actingCells[pivot][col].getValue() >= 2048 ){
+                    if (actingCells[pivot][col].getValue() >= 2048) {
                         gameWon(actingCells[pivot][col].getValue());
                     }
                     pivot--;
@@ -217,14 +221,14 @@ public class GameManager {
         int pivot;
         int row;
         for (int col = 0; col < 4; col++) {
-            // Проверяемая (опорная) и текущая ячейки
+            // Опорная и текущая ячейки
             pivot = 0;
             row = 1;
             while (row < 4) {
                 // Текущая ячейка пуста, переходим на следующую
                 if (actingCells[col][row].getValue() == 0) {
                     row++;
-                // Опорная ячейка пуста, переносим в нее значение текущей
+                    // Опорная ячейка пуста, переносим в нее значение текущей
                 } else if (actingCells[col][pivot].getValue() == 0) {
                     actingCells[col][pivot].setValue(actingCells[col][row].getValue());
                     actingCells[col][row].setMoving(true);
@@ -234,7 +238,7 @@ public class GameManager {
                 // Значения опорной и текущей ячеек совпадают — складываем их и переходим на следующую строчку
                 else if (actingCells[col][pivot].getValue() == actingCells[col][row].getValue()) {
                     actingCells[col][pivot].doubleValue();
-                    if (actingCells[pivot][col].getValue() >= 64 ){
+                    if (actingCells[pivot][col].getValue() >= 64) {
                         gameWon(actingCells[pivot][col].getValue());
                     }
                     pivot++;
@@ -251,7 +255,7 @@ public class GameManager {
     }
 
     public direction checkDirection(int startX, int startY, int finishX, int finishY) {
-        if ((Math.abs(startY - finishY) > CanvasView.CELL_WIDTH*0.3) && (Math.abs(startY - finishY) > Math.abs(startX - finishX))) {
+        if ((Math.abs(startY - finishY) > CanvasView.CELL_WIDTH * 0.3) && (Math.abs(startY - finishY) > Math.abs(startX - finishX))) {
             if (startY > finishY) {
                 return direction.UP;
             }
@@ -259,7 +263,7 @@ public class GameManager {
                 return direction.DOWN;
             }
         }
-        if ((Math.abs(startX - finishX) > CanvasView.CELL_WIDTH*0.3) && (Math.abs(startY - finishY) <= Math.abs(startX - finishX))) {
+        if ((Math.abs(startX - finishX) > CanvasView.CELL_WIDTH * 0.3) && (Math.abs(startY - finishY) <= Math.abs(startX - finishX))) {
             if (startX > finishX) {
                 return direction.LEFT;
             }
@@ -268,5 +272,13 @@ public class GameManager {
             }
         }
         return direction.STOP;
+    }
+
+    public Map<ActingCell, ActingCell> getCellsToMove() {
+        return cellsToMove;
+    }
+
+    public Map<ActingCell, ActingCell> getCellsToAdd() {
+        return cellsToAdd;
     }
 }

@@ -4,8 +4,8 @@ package com.example.app2048;
  * Created by ChornyiUA on 11.11.2015.
  */
 public class ActingCell extends Cell {
-    private int value;
-    private boolean moving;
+    protected int value;
+    protected boolean moving;
 
     public ActingCell(int x, int y) {
         super(x, y);

@@ -1,6 +1,5 @@
 package com.example.app2048;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CanvasView extends View {
     public static int BACKGROUND_START_X;
@@ -25,13 +25,16 @@ public class CanvasView extends View {
     private static int height;
     private GameManager gameManager;
     private Cell[][] backgroundCells = new Cell[4][4];
-    private HashMap<Integer, Integer> colorMapForCell = new HashMap<Integer, Integer>();
-    private HashMap<Integer, Integer> colorMapForText = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> colorMapForCell = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> colorMapForText = new HashMap<Integer, Integer>();
+    private Context context;
+    private ActingCell[][] viewCells  = new ActingCell[4][4];
     private Paint paint;
     private RectF backgroundRectF;
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         initWidthAndHeight(context);
         BACKGROUND_START_X = (int) (width * 0.025);
         BACKGROUND_START_Y = (int) (height * 0.28);
@@ -39,7 +42,7 @@ public class CanvasView extends View {
         BACKGROUND_WIDTH = (int) (width * 0.95);
         CELL_WIDTH = (int) (width * 0.2125);
         backgroundRectF = new RectF(BACKGROUND_START_X, BACKGROUND_START_Y, BACKGROUND_START_X + BACKGROUND_WIDTH, BACKGROUND_START_Y + BACKGROUND_WIDTH);
-        gameManager = new GameManager(context);
+        gameManager = new GameManager(this,context);
         initPaint();
         initField();
         initColorMapForCells();
@@ -47,10 +50,16 @@ public class CanvasView extends View {
     }
 
     public void restart(){
-        gameManager = new GameManager(getContext());
+        gameManager = new GameManager(this,getContext());
     }
 
+    public ActingCell[][] getViewCells() {
+        return viewCells;
+    }
 
+    public void setViewCells(ActingCell[][] viewCells) {
+        this.viewCells = viewCells;
+    }
 
     private void initColorMapForCells() {
         colorMapForCell.put(0, 0x00000000);
@@ -110,10 +119,8 @@ public class CanvasView extends View {
         paint.setAntiAlias(true);
         paint.setTextSize((int) (CELL_WIDTH * 0.3));
         paint.setTextAlign(Paint.Align.CENTER);
-//        paint.setFakeBoldText(true);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         paint.setStyle(Paint.Style.FILL);
-
     }
 
     @Override
