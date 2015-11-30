@@ -3,7 +3,7 @@ package com.example.app2048;
 import android.graphics.drawable.Drawable;
 
 public class Racquet extends GameObject {
-    private static final int DEFAULT_SPEED = 3;
+    private static final int DEFAULT_SPEED = 4;
 
     /**
      *  оличество заработанных очков
@@ -38,5 +38,13 @@ public class Racquet extends GameObject {
     @Override
     protected void updatePoint() {
         point.x += direction * speed; // двигаем ракетку по оси Ox в соответствующую сторону
+    }
+
+    public void incScore() {
+        score++;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

@@ -57,4 +57,8 @@ public class Ball extends GameObject {
     {
         angle = 2 * PI - angle;
     }
+
+    public void resetAngle() {
+        angle = getRandomAngle();
+    }
 }
