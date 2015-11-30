@@ -43,18 +43,20 @@ public class Ball extends GameObject {
         return rnd.nextInt(1) * PI + PI / 2 + rnd.nextInt(15) + 5;
     }
 
-    /** Отражение мячика от вертикали */
-    public void reflectVertical()
-    {
+    /**
+     * Отражение мячика от вертикали
+     */
+    public void reflectVertical() {
         if (angle > 0 && angle < PI)
             angle = PI - angle;
         else
             angle = 3 * PI - angle;
     }
 
-    /** Отражение мячика от горизонтали */
-    public void reflectHorizontal()
-    {
+    /**
+     * Отражение мячика от горизонтали
+     */
+    public void reflectHorizontal() {
         angle = 2 * PI - angle;
     }
 

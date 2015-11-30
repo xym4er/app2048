@@ -110,33 +110,66 @@ public abstract class GameObject {
         point.y = value - width / 2;
     }
 
-    /** Верхняя граница объекта */
-    public int getTop() { return point.y; }
+    /**
+     * Верхняя граница объекта
+     */
+    public int getTop() {
+        return point.y;
+    }
 
-    /** Нижняя граница объекта */
-    public int getBottom() { return point.y + height; }
+    /**
+     * Нижняя граница объекта
+     */
+    public int getBottom() {
+        return point.y + height;
+    }
 
-    /** Левая граница объекта */
-    public int getLeft() { return point.x; }
+    /**
+     * Левая граница объекта
+     */
+    public int getLeft() {
+        return point.x;
+    }
 
-    /** Правая граница объекта */
-    public int getRight() { return point.x + width; }
+    /**
+     * Правая граница объекта
+     */
+    public int getRight() {
+        return point.x + width;
+    }
 
-    /** Центральная точка объекта */
-    public Point getCenter() { return new Point(point.x + width / 2, point.y + height / 2); }
+    /**
+     * Центральная точка объекта
+     */
+    public Point getCenter() {
+        return new Point(point.x + width / 2, point.y + height / 2);
+    }
 
-    /** Высота объекта */
-    public int getHeight() { return height; }
+    /**
+     * Высота объекта
+     */
+    public int getHeight() {
+        return height;
+    }
 
-    /** Ширина объекта */
-    public int getWidth() { return width; }
+    /**
+     * Ширина объекта
+     */
+    public int getWidth() {
+        return width;
+    }
 
-    /** @return Прямоугольник, ограничивающий объект */
-    public Rect getRect() { return image.getBounds(); }
+    /**
+     * @return Прямоугольник, ограничивающий объект
+     */
+    public Rect getRect() {
+        return image.getBounds();
+    }
 
-    /** Проверяет, пересекаются ли два игровых объекта */
-    public static boolean intersects(GameObject obj1, GameObject obj2)
-    {
+    /**
+     * Проверяет, пересекаются ли два игровых объекта
+     */
+    public static boolean intersects(GameObject obj1, GameObject obj2) {
         return Rect.intersects(obj1.getRect(), obj2.getRect());
     }
 }

@@ -21,32 +21,31 @@ public class SurfaceGameView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         return thread.doKeyDown(keyCode);
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
         return thread.doKeyUp(keyCode);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int keyCode;
-        if((event.getY()<this.getY()/3)&(event.getX()>this.getWidth()/4)&(event.getX()<(this.getWidth()/4)*3)){
-            keyCode=5;
-        }else{
-            if (event.getX()<this.getWidth()/2){
-                keyCode=-1;
-            }else{
-                if (event.getX()>=this.getWidth()/2){
-                    keyCode=1;
-                }else{keyCode=0;}
+        if ((event.getY() < this.getY() / 3) & (event.getX() > this.getWidth() / 4) & (event.getX() < (this.getWidth() / 4) * 3)) {
+            keyCode = 5;
+        } else {
+            if (event.getX() < this.getWidth() / 2) {
+                keyCode = -1;
+            } else {
+                if (event.getX() >= this.getWidth() / 2) {
+                    keyCode = 1;
+                } else {
+                    keyCode = 0;
+                }
             }
         }
-
 
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -76,12 +75,13 @@ public class SurfaceGameView extends SurfaceView implements SurfaceHolder.Callba
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
         thread.setRunning(false);
-        while (retry){
+        while (retry) {
             try {
                 thread.join();
                 retry = false;
 
-            }catch (InterruptedException e){}
+            } catch (InterruptedException e) {
+            }
         }
     }
 }
